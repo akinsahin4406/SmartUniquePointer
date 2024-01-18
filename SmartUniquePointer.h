@@ -68,3 +68,10 @@ class SmartUniquePointer
     }
 
 };
+
+template<typename T, typename... Args> SmartUniquePointer<T>&& make_unique_pointer(Args&&... args)
+{
+    T* rawptr = new T(std::forward<Args>(args)...);
+    SmartUniquePointer<T>* smrptr = new SmartUniquePointer<T>(rawptr);
+    return std::move(*smrptr);
+}
